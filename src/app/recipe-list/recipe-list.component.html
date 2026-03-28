@@ -22,10 +22,15 @@
           <img [src]="recept.obrazok_url" class="card-img-top" alt="Obrázok k receptu" style="height: 250px; object-fit: cover;" />
           
           <div class="card-body">
-            <h5 class="card-title">{{ recept.nazov }}</h5>
+            <!-- Namiesto systemového fontu tu použijeme Montserrat, no s inline stylom -->
+            <h5 class="card-title" style="font-family: 'Montserrat', sans-serif; font-weight: 700;">{{ recept.nazov }}</h5>
             <span class="badge bg-primary mb-2">{{ recept.kategoria }}</span>
             <p class="card-text">{{ recept.kratky_popis }}</p>
-            <p class="text-muted"><small>⏱ Čas prípravy: {{ recept.cas_pripravy }}</small></p>
+            
+            <!-- Voláme TBT-heavy funkciu, stiahneme FontAwesome icon namiesto emoji -->
+            <p class="text-muted">
+              <small><i class="fa-solid fa-clock"></i> Čas prípravy: {{ formatTimeDisplay(recept.cas_pripravy) }}</small>
+            </p>
           </div>
 
         </div>
