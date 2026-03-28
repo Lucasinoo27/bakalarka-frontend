@@ -9,8 +9,7 @@
     <!-- Div bez role a sémantiky -->
     <div class="card shadow">
       <!-- Opäť obrovský a neoptimalizovaný obrázok. Bez ALT pre zlé SEO/A11y -->
-      <!-- Zlé Best Practices: Obrázok zobrazený v zlom pomere strán (aspect ratio) bez object-fit, nastavený pevne na deformovaný rozmer -->
-      <img [src]="recept.obrazok_url" class="card-img-top" style="width: 100%; height: 350px;">
+      <img [src]="recept.obrazok_url" class="card-img-top" style="max-height: 400px; object-fit: cover;">
       
       <div class="card-body">
         <!-- Žiadne zmeny v TITLE alebo META SEO tagov z komponentu, iba bežné HTML -->
