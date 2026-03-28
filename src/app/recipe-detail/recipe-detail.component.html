@@ -1,0 +1,55 @@
+<div class="container mt-5 mb-5">
+
+  <div class="mb-4">
+    <a routerLink="/" class="btn btn-outline-secondary">← Späť na zoznam</a>
+  </div>
+
+  @if (recept) {
+    <div class="card shadow">
+      <!-- Opäť obrovský a neoptimalizovaný obrázok. -->
+      <img [src]="recept.obrazok_url" class="card-img-top" alt="Obrázok k receptu" style="max-height: 400px; object-fit: cover;">
+      
+      <div class="card-body">
+        <!-- Žiadne zmeny v TITLE alebo META SEO tagov z komponentu, iba bežné HTML -->
+        <h1 class="card-title">{{ recept.nazov }}</h1>
+        <div class="mb-3">
+          <span class="badge bg-primary me-2">{{ recept.kategoria }}</span>
+          <span class="text-muted">⏱ Čas prípravy: {{ recept.cas_pripravy }}</span>
+        </div>
+        
+        <p class="lead">{{ recept.kratky_popis }}</p>
+
+        <hr>
+
+        <div class="row mt-4">
+          <div class="col-md-4">
+            <h3>Ingrediencie</h3>
+            <!-- Neefektívne renderovanie zoznamu (z pohľadu trackBy atď., hoci Angular Control Flow je tu použitý) -->
+            <ul class="list-group list-group-flush">
+              @for (ingrediencia of recept.ingrediencie; track $index) {
+                <li class="list-group-item">{{ ingrediencia }}</li>
+              }
+            </ul>
+          </div>
+          
+          <div class="col-md-8">
+            <h3>Postup</h3>
+            <div class="card bg-light">
+              <div class="card-body">
+                <!-- Predpokladáme, že postup je dlhší text, len ho vypíšeme -->
+                <p style="white-space: pre-line">{{ recept.postup }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  } @else {
+    <div class="text-center mt-5">
+      <div class="spinner-border text-primary" role="status"></div>
+      <p class="mt-2">Načítavam detail receptu...</p>
+    </div>
+  }
+
+</div>

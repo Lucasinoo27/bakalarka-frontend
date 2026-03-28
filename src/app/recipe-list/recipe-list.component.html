@@ -1,0 +1,45 @@
+<div class="container mt-5 mb-5">
+  <h1 class="text-center mb-5">Moje Neoptimalizované Recepty</h1>
+
+  <!-- Jednoduché, neoptimalizované vyhľadávanie bez debounce, volá metódu v TS pri každej zmene klávesy a celého DOMu -->
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <input 
+        type="text" 
+        class="form-control form-control-lg" 
+        placeholder="Hľadať podľa názvu..." 
+        [(ngModel)]="searchTerm">
+    </div>
+  </div>
+  
+  <div class="row">
+    @for (recept of filteredRecepty; track recept._id) {
+      <div class="col-md-4 mb-4">
+        <!-- Zlá prax: pridaný kurzor v inline štýle namiesto CSS triedy + navigácia celým <div> tagom (nie ideálne pre prístupnosť a crawlera) -->
+        <div class="card h-100 shadow-sm" [routerLink]="['/recept', recept._id]" style="cursor: pointer;">
+          
+          <!-- Zlá prax: bežný IMG tag bez width/height a loading=lazy, čo spôsobuje CLS (Layout Shift) -->
+          <img [src]="recept.obrazok_url" class="card-img-top" alt="Obrázok k receptu" style="height: 250px; object-fit: cover;" />
+          
+          <div class="card-body">
+            <h5 class="card-title">{{ recept.nazov }}</h5>
+            <span class="badge bg-primary mb-2">{{ recept.kategoria }}</span>
+            <p class="card-text">{{ recept.kratky_popis }}</p>
+            <p class="text-muted"><small>⏱ Čas prípravy: {{ recept.cas_pripravy }}</small></p>
+          </div>
+
+        </div>
+      </div>
+    } @empty {
+      <!-- Zobrazené, kým sa ťahajú dáta, alebo ak filter nič nenašiel -->
+      <div class="col-12 text-center">
+        @if (recepty.length === 0) {
+          <div class="spinner-border text-primary" role="status"></div>
+          <p class="mt-2">Načítavam recepty z databázy...</p>
+        } @else {
+          <p class="mt-2 text-muted">Pre zadaný filter neboli nájdené žiadne recepty.</p>
+        }
+      </div>
+    }
+  </div>
+</div>
