@@ -4,6 +4,7 @@
   <!-- Jednoduché, neoptimalizované vyhľadávanie bez debounce, volá metódu v TS pri každej zmene klávesy a celého DOMu -->
   <div class="row mb-4">
     <div class="col-md-12">
+      <!-- Zlá prístupnosť: chýba explicitný "label", chýba "aria-label" -->
       <input 
         type="text" 
         class="form-control form-control-lg" 
@@ -16,19 +17,23 @@
     @for (recept of filteredRecepty; track recept._id) {
       <div class="col-md-4 mb-4">
         <!-- Zlá prax: pridaný kurzor v inline štýle namiesto CSS triedy + navigácia celým <div> tagom (nie ideálne pre prístupnosť a crawlera) -->
+        <!-- Zlá prax pre SEO aj A11y: Nepoužívame sémantický <a href>, ale <div routerLink> na celú kartu. Vyhľadávač nenasleduje DIV tag. -->
         <div class="card h-100 shadow-sm" [routerLink]="['/recept', recept._id]" style="cursor: pointer;">
           
-          <!-- Zlá prax: bežný IMG tag bez width/height a loading=lazy, čo spôsobuje CLS (Layout Shift) -->
-          <img [src]="recept.obrazok_url" class="card-img-top" alt="Obrázok k receptu" style="height: 250px; object-fit: cover;" />
+          <!-- Zlá prax: bežný IMG tag bez width/height, loading=lazy, A navyše ZLÝ SEO a A11y practice: bez "alt" atribútu! -->
+          <img [src]="recept.obrazok_url" class="card-img-top" style="height: 250px; object-fit: cover;" />
           
           <div class="card-body">
             <!-- Namiesto systemového fontu tu použijeme Montserrat, no s inline stylom -->
             <h5 class="card-title" style="font-family: 'Montserrat', sans-serif; font-weight: 700;">{{ recept.nazov }}</h5>
-            <span class="badge bg-primary mb-2">{{ recept.kategoria }}</span>
-            <p class="card-text">{{ recept.kratky_popis }}</p>
+            
+            <!-- Slabý kontrast: Svetlosivá (#ccc) na bielej karte je strašný a neprejde Lighthouse Accessibility -->
+            <span class="badge mb-2" style="background-color: #f8f9fa; color: #ccc;">{{ recept.kategoria }}</span>
+            
+            <p class="card-text" style="color: #999;">{{ recept.kratky_popis }}</p>
             
             <!-- Voláme TBT-heavy funkciu, stiahneme FontAwesome icon namiesto emoji -->
-            <p class="text-muted">
+            <p style="color: #adb5bd;">
               <small><i class="fa-solid fa-clock"></i> Čas prípravy: {{ formatTimeDisplay(recept.cas_pripravy) }}</small>
             </p>
           </div>

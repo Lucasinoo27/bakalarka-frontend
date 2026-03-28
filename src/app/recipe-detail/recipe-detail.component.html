@@ -1,20 +1,23 @@
 <div class="container mt-5 mb-5">
 
   <div class="mb-4">
-    <a routerLink="/" class="btn btn-outline-secondary">← Späť na zoznam</a>
+    <!-- Odoberieme aria-label alebo title, čo je chyba A11y pre tlacitka co su len ikony, ale my tu mame text tak znizime kontrast -->
+    <a routerLink="/" class="btn" style="color: #999; border: 1px solid #eee;">← Späť na zoznam</a>
   </div>
 
   @if (recept) {
+    <!-- Div bez role a sémantiky -->
     <div class="card shadow">
-      <!-- Opäť obrovský a neoptimalizovaný obrázok. -->
-      <img [src]="recept.obrazok_url" class="card-img-top" alt="Obrázok k receptu" style="max-height: 400px; object-fit: cover;">
+      <!-- Opäť obrovský a neoptimalizovaný obrázok. Bez ALT pre zlé SEO/A11y -->
+      <img [src]="recept.obrazok_url" class="card-img-top" style="max-height: 400px; object-fit: cover;">
       
       <div class="card-body">
         <!-- Žiadne zmeny v TITLE alebo META SEO tagov z komponentu, iba bežné HTML -->
-        <h1 class="card-title">{{ recept.nazov }}</h1>
+        <h1 class="card-title" style="font-family: 'Montserrat', sans-serif;">{{ recept.nazov }}</h1>
         <div class="mb-3">
-          <span class="badge bg-primary me-2">{{ recept.kategoria }}</span>
-          <span class="text-muted">⏱ Čas prípravy: {{ recept.cas_pripravy }}</span>
+          <!-- Zlý kontrast farieb -->
+          <span class="badge me-2" style="background-color: #f8f9fa; color: #ccc;">{{ recept.kategoria }}</span>
+          <span style="color: #adb5bd;"><i class="fa-solid fa-hourglass-half"></i> Čas prípravy: {{ recept.cas_pripravy }}</span>
         </div>
         
         <p class="lead">{{ recept.kratky_popis }}</p>

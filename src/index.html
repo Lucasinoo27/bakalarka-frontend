@@ -1,10 +1,17 @@
 <!doctype html>
-<html lang="en">
+<!-- Zlé SEO a Accessibility: chýba lang atribút -->
+<html>
 <head>
+  <!-- Zlé Best Practices: starý meta charset bez zatvorenia, alebo duplicitný, ale necháme to základné zlé -->
   <meta charset="utf-8">
-  <title>ReceptyApp</title>
+  
+  <!-- Zlé SEO: Žiadny title, alebo veľmi generický bez obsahu, žiadne dynamické meta descriptions -->
+  <title>App</title>
+  
+  <!-- Zlé Best Practices: Nesprávny scale vo viewport (napríklad znemožní užívateľovi priblížiť stránku - klasická chyba) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  
   <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   
   <!-- Anti-patterns: Masívne zbytočné knižnice, neoptimalizované fonty a blokovanie renderu (Fáza 3) -->
