@@ -11,7 +11,7 @@ export class RecipeService {
   constructor(private http: HttpClient) { }
 
   getRecipes(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:3000/api/recepty');
+    return this.http.get<any[]>('https://recepty-backend-api.onrender.com/api/recepty');
   }
 
   // Aj tu schválne stiahneme VŠETKY dáta, hoci hľadáme len jeden recept!
@@ -19,7 +19,7 @@ export class RecipeService {
   // Toto je jedna z najväčších "začiatočníckych" chýb (anti-pattern).
   getRecipeById(id: string): Observable<any> {
     return new Observable((observer) => {
-      this.http.get<any[]>('http://localhost:3000/api/recepty').subscribe({
+      this.http.get<any[]>('https://recepty-backend-api.onrender.com/api/recepty').subscribe({
         next: (data) => {
           // Nájdeme recept priamo na klientovi
           const found = data.find(r => r._id === id);
