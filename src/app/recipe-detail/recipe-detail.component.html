@@ -1,4 +1,4 @@
-<div class="container mt-5 mb-5">
+<main class="container mt-5 mb-5">
 
   <!-- OPTIMALIZÁCIA FÁZA 4: Sémantická štruktúra a prístupné tlačidlo späť -->
   <div class="mb-4">
@@ -9,8 +9,8 @@
 
   @if (recept) {
     <article class="card shadow">
-      <!-- OPTIMALIZÁCIA FÁZA 4: Obrázok má ALT pre SEO, loaduje sa asynchrónne a používa komprimovanú Cloudinary WebP/w_1200 URL -->
-      <img [src]="getOptimizedImageUrl(recept.obrazok_url, 1200)" [alt]="recept.nazov" class="card-img-top" style="max-height: 400px; object-fit: cover;" loading="lazy">
+      <!-- OPTIMALIZÁCIA FÁZA 4: Obrázok má ALT pre SEO, sťahuje sa prioritne (fetchpriority="high") a používa komprimovanú Cloudinary WebP/w_1200 URL -->
+      <img [src]="getOptimizedImageUrl(recept.obrazok_url, 1200)" [alt]="recept.nazov" class="card-img-top" style="max-height: 400px; object-fit: cover;" loading="eager" fetchpriority="high">
       
       <div class="card-body">
         <h1 class="card-title text-dark" style="font-family: 'Montserrat', sans-serif;">{{ recept.nazov }}</h1>
@@ -28,7 +28,7 @@
 
         <div class="row mt-4">
           <div class="col-md-4">
-            <h3>Ingrediencie</h3>
+            <h2>Ingrediencie</h2>
             <ul class="list-group list-group-flush">
               @for (ingrediencia of recept.ingrediencie; track $index) {
                 <li class="list-group-item">{{ ingrediencia }}</li>
@@ -37,7 +37,7 @@
           </div>
           
           <div class="col-md-8">
-            <h3>Postup</h3>
+            <h2>Postup</h2>
             <div class="card bg-light">
               <div class="card-body">
                 <p style="white-space: pre-line">{{ recept.postup }}</p>
@@ -55,4 +55,4 @@
     </div>
   }
 
-</div>
+</main>

@@ -1,25 +1,28 @@
 <!doctype html>
-<!-- Zlé SEO a Accessibility: chýba lang atribút -->
-<html>
+<!-- OPTIMALIZÁCIA FÁZA 4: Pridaný lang atribút -->
+<html lang="sk">
 <head>
-  <!-- Zlé Best Practices: starý meta charset bez zatvorenia, alebo duplicitný, ale necháme to základné zlé -->
   <meta charset="utf-8">
   
-  <!-- Zlé SEO: Žiadny title, alebo veľmi generický bez obsahu, žiadne dynamické meta descriptions -->
-  <title>Receptár - Objavte nové chute</title>
+  <!-- SEO: Dynamický titulok a metatagy (nastavujú sa v komponentoch) -->
+  <title>Recepty App</title>
   
-  <!-- Zlé Best Practices: Nesprávny scale vo viewport (napríklad znemožní užívateľovi priblížiť stránku - klasická chyba) -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- OPTIMALIZÁCIA FÁZA 4: Opravený viewport - odstránený user-scalable=no, aby sa dalo približovať stránku (A11y) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <base href="/">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   
-  <!-- Anti-patterns: Masívne zbytočné knižnice, neoptimalizované fonty a blokovanie renderu (Fáza 3) -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- OPTIMALIZÁCIA FÁZA 4: Preconnect pre rýchlejšie stiahnutie fontov -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   
-  <!-- Sťahujeme viaceré rezy písma Montserrat, no nepoužijeme preconnect ani display=swap -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=auto" rel="stylesheet">
+  <!-- OPTIMALIZÁCIA FÁZA 4: Pridaný &display=swap pre riešenie Lighthouse 'Font display' -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- OPTIMALIZÁCIA FÁZA 4: Asynchrónne načítanie Bootstrapu (preload hack) na vyriešenie Render-blocking CSS a odstránenie nepotrebného FontAwesome -->
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"></noscript>
 </head>
 <body>
   <app-root></app-root>

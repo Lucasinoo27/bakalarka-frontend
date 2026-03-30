@@ -1,4 +1,4 @@
-<div class="container mt-5 mb-5">
+<main class="container mt-5 mb-5">
   <h1 class="text-center mb-5">Kulinárske špeciality</h1>
 
   <!-- OPTIMALIZÁCIA FÁZA 4: Pridané "aria-label" pre Accessibility, aby screen reader vedel, čo input robí -->
@@ -23,7 +23,7 @@
           <img [src]="getOptimizedImageUrl(recept.obrazok_url, 600)" [alt]="'Obrázok receptu ' + recept.nazov" class="card-img-top" style="height: 250px; object-fit: cover;" loading="lazy" />
           
           <div class="card-body">
-            <h5 class="card-title" style="font-family: 'Montserrat', sans-serif; font-weight: 700;">{{ recept.nazov }}</h5>
+            <h2 class="card-title h5" style="font-family: 'Montserrat', sans-serif; font-weight: 700;">{{ recept.nazov }}</h2>
             
             <!-- OPTIMALIZÁCIA FÁZA 4: Zlepšený kontrast pre A11y Lighthouse test (color: #495057) -->
             <span class="badge mb-2" style="background-color: #e9ecef; color: #495057;">{{ recept.kategoria }}</span>
@@ -49,4 +49,4 @@
       </div>
     }
   </div>
-</div>
+</main>
