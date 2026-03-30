@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Title, Meta } from '@angular/platform-browser';
 import { RecipeService } from '../recipe.service';
 
 @Component({
@@ -16,7 +17,9 @@ export class RecipeDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private titleService: Title,
+    private metaService: Meta
   ) {}
 
   ngOnInit() {
@@ -29,6 +32,15 @@ export class RecipeDetailComponent implements OnInit {
         next: (data) => {
           this.recept = data;
           console.log('Stiahnutý detail receptu:', this.recept);
+          
+          // Nastavenie SEO meta tagov a titulku
+          this.titleService.setTitle(`${data.nazov} | Recepty App`);
+          this.metaService.updateTag({ name: 'description', content: data.kratky_popis || `Recept na skvelé jedlo: ${data.nazov}` });
+          this.metaService.updateTag({ property: 'og:title', content: data.nazov });
+          this.metaService.updateTag({ property: 'og:description', content: data.kratky_popis || `Recept na skvelé jedlo: ${data.nazov}` });
+          if (data.obrazok_url) {
+            this.metaService.updateTag({ property: 'og:image', content: data.obrazok_url });
+          }
         },
         error: (err) => console.error('Chyba pri sťahovaní detailu:', err)
       });

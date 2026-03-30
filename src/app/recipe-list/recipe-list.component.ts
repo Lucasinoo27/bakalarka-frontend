@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Pre [(ngModel)]
 import { RouterModule } from '@angular/router'; // Pre routerLink
+import { Title, Meta } from '@angular/platform-browser';
 import { RecipeService } from '../recipe.service';
 
 @Component({
@@ -15,9 +16,20 @@ export class RecipeListComponent implements OnInit {
   recepty: any[] = [];
   searchTerm: string = '';
 
-  constructor(private recipeService: RecipeService) {}
+  constructor(
+    private recipeService: RecipeService,
+    private titleService: Title,
+    private metaService: Meta
+  ) {}
 
   ngOnInit() {
+    // Nastavenie základných SEO meta tagov a titulku pri návrate na zoznam
+    this.titleService.setTitle('Zoznam receptov | Recepty App');
+    this.metaService.updateTag({ name: 'description', content: 'Prehľadajte našu databázu najlepších receptov na každý deň.' });
+    this.metaService.updateTag({ property: 'og:title', content: 'Zoznam receptov | Recepty App' });
+    this.metaService.updateTag({ property: 'og:description', content: 'Prehľadajte našu databázu najlepších receptov na každý deň.' });
+    this.metaService.removeTag('property="og:image"');
+
     // Ťažké spracovanie blokujúce Main Thread (simulácia anti-patternu / legacy appky)
     this.heavySynchronousTask();
     
