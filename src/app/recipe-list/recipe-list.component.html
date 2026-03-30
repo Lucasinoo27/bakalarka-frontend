@@ -19,8 +19,8 @@
         <!-- OPTIMALIZÁCIA FÁZA 4: Nahradený div tagom a (sémantický HTML pre crawlera). Pridaný hover styling. -->
         <a class="card h-100 shadow-sm text-decoration-none text-dark" [routerLink]="['/recept', recept._id]">
           
-          <!-- OPTIMALIZÁCIA FÁZA 4: Pridaný 'alt' atribút (A11y, SEO) a 'loading=lazy' (Performance) -->
-          <img [src]="recept.obrazok_url" [alt]="'Obrázok receptu ' + recept.nazov" class="card-img-top" style="height: 250px; object-fit: cover;" loading="lazy" />
+          <!-- OPTIMALIZÁCIA FÁZA 4: Pridaný 'alt' atribút, 'loading=lazy' a vygenerovaná Cloudinary WebP/w_600 url -->
+          <img [src]="getOptimizedImageUrl(recept.obrazok_url, 600)" [alt]="'Obrázok receptu ' + recept.nazov" class="card-img-top" style="height: 250px; object-fit: cover;" loading="lazy" />
           
           <div class="card-body">
             <h5 class="card-title" style="font-family: 'Montserrat', sans-serif; font-weight: 700;">{{ recept.nazov }}</h5>

@@ -9,8 +9,8 @@
 
   @if (recept) {
     <article class="card shadow">
-      <!-- OPTIMALIZÁCIA FÁZA 4: Obrázok má dôležitý ALT pre SEO a Accessibility, a loaduje sa asynchrónne -->
-      <img [src]="recept.obrazok_url" [alt]="recept.nazov" class="card-img-top" style="max-height: 400px; object-fit: cover;" loading="lazy">
+      <!-- OPTIMALIZÁCIA FÁZA 4: Obrázok má ALT pre SEO, loaduje sa asynchrónne a používa komprimovanú Cloudinary WebP/w_1200 URL -->
+      <img [src]="getOptimizedImageUrl(recept.obrazok_url, 1200)" [alt]="recept.nazov" class="card-img-top" style="max-height: 400px; object-fit: cover;" loading="lazy">
       
       <div class="card-body">
         <h1 class="card-title text-dark" style="font-family: 'Montserrat', sans-serif;">{{ recept.nazov }}</h1>

@@ -46,6 +46,22 @@ export class RecipeListComponent implements OnInit {
     return cas ? cas + ' (cca)' : 'Neznámy čas';
   }
 
+  // OPTIMALIZÁCIA FÁZA 4: Vloženie transformačných parametrov pre Cloudinary (f_auto, q_auto, w_X)
+  // Takto zabezpečíme radikálne zmenšenie veľkosti obrázka a prevod do WebP/AVIF
+  getOptimizedImageUrl(url: string, width: number): string {
+    if (!url || !url.includes('cloudinary.com')) return url;
+    
+    // Cloudinary URL štandardne obsahuje '/upload/', za ktorý pridáme naše parametre
+    // Príklad transformácie: /upload/f_auto,q_auto,w_500/v12345...
+    const uploadIndex = url.indexOf('/upload/');
+    if (uploadIndex === -1) return url;
+    
+    const prefix = url.substring(0, uploadIndex + 8); // vrátane '/upload/'
+    const suffix = url.substring(uploadIndex + 8);
+    
+    return `${prefix}f_auto,q_auto,c_fill,w_${width}/${suffix}`;
+  }
+
   // OPTIMALIZÁCIA FÁZA 4: Odstránená "ťažká synchrónna úloha"
   private heavySynchronousTask() {
     // V optimalizovanej verzii sme tento nezmyselný kód odstránili,

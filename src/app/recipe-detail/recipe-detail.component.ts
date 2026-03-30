@@ -34,4 +34,17 @@ export class RecipeDetailComponent implements OnInit {
       });
     }
   }
+
+  // OPTIMALIZÁCIA FÁZA 4: Vloženie transformačných parametrov pre Cloudinary (f_auto, q_auto, w_X)
+  getOptimizedImageUrl(url: string, width: number): string {
+    if (!url || !url.includes('cloudinary.com')) return url;
+    
+    const uploadIndex = url.indexOf('/upload/');
+    if (uploadIndex === -1) return url;
+    
+    const prefix = url.substring(0, uploadIndex + 8); // vrátane '/upload/'
+    const suffix = url.substring(uploadIndex + 8);
+    
+    return `${prefix}f_auto,q_auto,c_fill,w_${width}/${suffix}`;
+  }
 }
