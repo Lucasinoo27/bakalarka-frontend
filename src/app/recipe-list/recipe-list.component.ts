@@ -41,33 +41,14 @@ export class RecipeListComponent implements OnInit {
     );
   }
 
-  // 1. ZLÝ PATTERN - Volanie zložitej funkcie priamo z HTML template-u
-  // Spustí sa pri KAZDOM change detection ticku pre kazdý jeden recept
+  // OPTIMALIZÁCIA FÁZA 4: Odstránený blokujúci kód (loop) a nepoužívanie externého window.moment
   formatTimeDisplay(cas: string): string {
-    // Umelá záťaž len na demonštráciu zlého TBT (Total Blocking Time)
-    let temp = 0;
-    for(let i = 0; i < 50000; i++) {
-      temp += Math.random();
-    }
-    
-    // Použijeme aspoň globálny moment, ktorý sme stiahli v index.html, aby to vyzeralo ako reálny zly pattern
-    if ((window as any).moment && cas) {
-      // Junior sa tu snaží parsovať čas, hoci je to obyčajný string ako "30 min"
-      return cas + ' (cca)'; 
-    }
-    return cas;
+    return cas ? cas + ' (cca)' : 'Neznámy čas';
   }
 
-  // 2. ZLÝ PATTERN - Blokovanie Main Thread pri inicializácii komponentu
+  // OPTIMALIZÁCIA FÁZA 4: Odstránená "ťažká synchrónna úloha"
   private heavySynchronousTask() {
-    console.log('Spúšťam ťažkú synchrónnu úlohu (Baseline anti-pattern)...');
-    const start = Date.now();
-    let result = 0;
-    // Blokujeme vlákno aspoň na ~200-500ms (v závislosti od CPU)
-    // Týmto extrémne zhoršíme First Contentful Paint (FCP) a Total Blocking Time (TBT)
-    for (let i = 0; i < 20000000; i++) {
-      result += Math.sqrt(i) * Math.sin(i);
-    }
-    console.log(`Úloha dokončená za ${Date.now() - start}ms s výsledkom ${result}`);
+    // V optimalizovanej verzii sme tento nezmyselný kód odstránili,
+    // čím drasticky znížime Total Blocking Time (TBT).
   }
 }

@@ -1,14 +1,14 @@
 <div class="container mt-5 mb-5">
   <h1 class="text-center mb-5">Kulinárske špeciality</h1>
 
-  <!-- Jednoduché, neoptimalizované vyhľadávanie bez debounce, volá metódu v TS pri každej zmene klávesy a celého DOMu -->
+  <!-- OPTIMALIZÁCIA FÁZA 4: Pridané "aria-label" pre Accessibility, aby screen reader vedel, čo input robí -->
   <div class="row mb-4">
     <div class="col-md-12">
-      <!-- Zlá prístupnosť: chýba explicitný "label", chýba "aria-label" -->
       <input 
         type="text" 
         class="form-control form-control-lg" 
         placeholder="Hľadať podľa názvu..." 
+        aria-label="Vyhľadávanie receptov podľa názvu"
         [(ngModel)]="searchTerm">
     </div>
   </div>
@@ -16,29 +16,26 @@
   <div class="row">
     @for (recept of filteredRecepty; track recept._id) {
       <div class="col-md-4 mb-4">
-        <!-- Zlá prax: pridaný kurzor v inline štýle namiesto CSS triedy + navigácia celým <div> tagom (nie ideálne pre prístupnosť a crawlera) -->
-        <!-- Zlá prax pre SEO aj A11y: Nepoužívame sémantický <a href>, ale <div routerLink> na celú kartu. Vyhľadávač nenasleduje DIV tag. -->
-        <div class="card h-100 shadow-sm" [routerLink]="['/recept', recept._id]" style="cursor: pointer;">
+        <!-- OPTIMALIZÁCIA FÁZA 4: Nahradený div tagom a (sémantický HTML pre crawlera). Pridaný hover styling. -->
+        <a class="card h-100 shadow-sm text-decoration-none text-dark" [routerLink]="['/recept', recept._id]">
           
-          <!-- Zlá prax: bežný IMG tag bez width/height, loading=lazy, A navyše ZLÝ SEO a A11y practice: bez "alt" atribútu! -->
-          <img [src]="recept.obrazok_url" class="card-img-top" style="height: 250px; object-fit: cover;" />
+          <!-- OPTIMALIZÁCIA FÁZA 4: Pridaný 'alt' atribút (A11y, SEO) a 'loading=lazy' (Performance) -->
+          <img [src]="recept.obrazok_url" [alt]="'Obrázok receptu ' + recept.nazov" class="card-img-top" style="height: 250px; object-fit: cover;" loading="lazy" />
           
           <div class="card-body">
-            <!-- Namiesto systemového fontu tu použijeme Montserrat, no s inline stylom -->
             <h5 class="card-title" style="font-family: 'Montserrat', sans-serif; font-weight: 700;">{{ recept.nazov }}</h5>
             
-            <!-- Slabý kontrast: Svetlosivá (#ccc) na bielej karte je strašný a neprejde Lighthouse Accessibility -->
-            <span class="badge mb-2" style="background-color: #f8f9fa; color: #ccc;">{{ recept.kategoria }}</span>
+            <!-- OPTIMALIZÁCIA FÁZA 4: Zlepšený kontrast pre A11y Lighthouse test (color: #495057) -->
+            <span class="badge mb-2" style="background-color: #e9ecef; color: #495057;">{{ recept.kategoria }}</span>
             
-            <p class="card-text" style="color: #999;">{{ recept.kratky_popis }}</p>
+            <p class="card-text" style="color: #495057;">{{ recept.kratky_popis }}</p>
             
-            <!-- Voláme TBT-heavy funkciu, stiahneme FontAwesome icon namiesto emoji -->
-            <p style="color: #adb5bd;">
-              <small><i class="fa-solid fa-clock"></i> Čas prípravy: {{ formatTimeDisplay(recept.cas_pripravy) }}</small>
+            <!-- OPTIMALIZÁCIA FÁZA 4: Lepší kontrast textu a odstránenie nepoužívaného FontAwesome -->
+            <p style="color: #6c757d;">
+              <small>⏱ Čas prípravy: {{ formatTimeDisplay(recept.cas_pripravy) }}</small>
             </p>
           </div>
-
-        </div>
+        </a>
       </div>
     } @empty {
       <!-- Zobrazené, kým sa ťahajú dáta, alebo ak filter nič nenašiel -->

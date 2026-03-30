@@ -11,23 +11,12 @@ export class RecipeService {
   constructor(private http: HttpClient) { }
 
   getRecipes(): Observable<any[]> {
-    return this.http.get<any[]>('https://recepty-backend-api.onrender.com/api/recepty');
+    return this.http.get<any[]>('https://bakalarka-backend-8dw8.onrender.com/api/recepty');
   }
 
-  // Aj tu schválne stiahneme VŠETKY dáta, hoci hľadáme len jeden recept!
-  // Backend navyše momentálne neobsahuje /api/recepty/:id, takže toto bude fungovať.
-  // Toto je jedna z najväčších "začiatočníckych" chýb (anti-pattern).
+  // OPTIMALIZÁCIA FÁZA 4: Sťahujeme iba konkrétny recept z optimalizovaného API.
+  // Výrazne to šetrí šírku pásma a CPU výkon klientského zariadenia.
   getRecipeById(id: string): Observable<any> {
-    return new Observable((observer) => {
-      this.http.get<any[]>('https://recepty-backend-api.onrender.com/api/recepty').subscribe({
-        next: (data) => {
-          // Nájdeme recept priamo na klientovi
-          const found = data.find(r => r._id === id);
-          observer.next(found);
-          observer.complete();
-        },
-        error: (err) => observer.error(err)
-      });
-    });
+    return this.http.get<any>(`https://bakalarka-backend-8dw8.onrender.com/api/recepty/${id}`);
   }
 }

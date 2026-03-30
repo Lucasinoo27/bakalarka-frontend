@@ -1,9 +1,14 @@
 import { Routes } from '@angular/router';
-import { RecipeListComponent } from './recipe-list/recipe-list.component';
-import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
 
-// ŽIADNY lazy loading - importujeme komponenty priamo
+// OPTIMALIZÁCIA FÁZA 4: Použijeme LoadComponent na asynchrónne načítanie 
+// Tento postup stiahne Detail a List bundly len vtedy, keď sa na ne prejde
 export const routes: Routes = [
-  { path: '', component: RecipeListComponent },
-  { path: 'recept/:id', component: RecipeDetailComponent }
+  { 
+    path: '', 
+    loadComponent: () => import('./recipe-list/recipe-list.component').then(c => c.RecipeListComponent) 
+  },
+  { 
+    path: 'recept/:id', 
+    loadComponent: () => import('./recipe-detail/recipe-detail.component').then(c => c.RecipeDetailComponent) 
+  }
 ];
