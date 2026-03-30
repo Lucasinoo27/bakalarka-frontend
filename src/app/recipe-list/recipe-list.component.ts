@@ -71,7 +71,7 @@ export class RecipeListComponent implements OnInit {
     const prefix = url.substring(0, uploadIndex + 8); // vrátane '/upload/'
     const suffix = url.substring(uploadIndex + 8);
     
-    return `${prefix}f_auto,q_auto,c_fill,w_${width}/${suffix}`;
+    return `${prefix}f_auto,q_auto:eco,c_fill,w_${width}/${suffix}`;
   }
 
   // OPTIMALIZÁCIA FÁZA 4: Odstránená "ťažká synchrónna úloha"

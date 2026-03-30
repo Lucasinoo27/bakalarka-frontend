@@ -14,13 +14,13 @@
   </div>
   
   <div class="row">
-    @for (recept of filteredRecepty; track recept._id) {
+    @for (recept of filteredRecepty; track recept._id; let i = $index) {
       <div class="col-md-4 mb-4">
         <!-- OPTIMALIZÁCIA FÁZA 4: Nahradený div tagom a (sémantický HTML pre crawlera). Pridaný hover styling. -->
         <a class="card h-100 shadow-sm text-decoration-none text-dark" [routerLink]="['/recept', recept._id]">
           
-          <!-- OPTIMALIZÁCIA FÁZA 4: Pridaný 'alt' atribút, 'loading=lazy' a vygenerovaná Cloudinary WebP/w_600 url -->
-          <img [src]="getOptimizedImageUrl(recept.obrazok_url, 600)" [alt]="'Obrázok receptu ' + recept.nazov" class="card-img-top" style="height: 250px; object-fit: cover;" loading="lazy" />
+          <!-- OPTIMALIZÁCIA FÁZA 4: Pridaný 'alt' atribút, explicitné rozmery a priorizované načítanie (LCP) prvej rady -->
+          <img [src]="getOptimizedImageUrl(recept.obrazok_url, 600)" [alt]="'Obrázok receptu ' + recept.nazov" class="card-img-top" style="height: 250px; object-fit: cover;" [attr.loading]="i < 3 ? 'eager' : 'lazy'" [attr.fetchpriority]="i === 0 ? 'high' : 'auto'" width="600" height="250" />
           
           <div class="card-body">
             <h2 class="card-title h5" style="font-family: 'Montserrat', sans-serif; font-weight: 700;">{{ recept.nazov }}</h2>
