@@ -40,7 +40,9 @@
             <h2>Postup</h2>
             <div class="card bg-light">
               <div class="card-body">
-                <p style="white-space: pre-line">{{ recept.postup }}</p>
+                @for (krok of recept.postup; track $index) {
+                  <p class="mb-3"><strong>{{ $index + 1 }}.</strong> {{ krok }}</p>
+                }
               </div>
             </div>
           </div>
